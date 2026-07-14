@@ -1,63 +1,53 @@
 # TeleBotHost MCP Server
 
-<div align="center">
-
-**A production-ready [Model Context Protocol](https://modelcontextprotocol.io) server for the [TeleBotHost Developer API](https://telebothost.com).**
-
-Expose **68 tools** covering the TeleBotHost Developer API — bot lifecycle, storage, broadcasts, commands, env vars, logs, analytics, community store, binary import/export, and more — to any MCP-compatible AI client (Claude Desktop, Cursor, Continue, Cline, etc.).
-
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/telebothost/mcp-server&env=TELEBOTHOST_API_KEY&envDescription=Your%20TeleBotHost%20Developer%20API%20key&project-name=telebothost-mcp)
 [![MCP](https://img.shields.io/badge/MCP-2024--11--05-blue.svg)](https://modelcontextprotocol.io)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178c6.svg)](https://www.typescriptlang.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178c6.svg)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-%E2%89%A520-339933.svg)](https://nodejs.org/)
-[![Coverage](https://img.shields.io/badge/API%20Coverage-100%25-brightgreen.svg)](#-api-coverage)
-[![Tools](https://img.shields.io/badge/Tools-68-orange.svg)](#-available-tools-68)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Deploy on Vercel](https://img.shields.io/badge/Deploy-Vercel-000.svg)](https://vercel.com)
-[![Deploy on Render](https://img.shields.io/badge/Deploy-Render-46e3b7.svg)](https://render.com)
 
-</div>
+**A [Model Context Protocol](https://modelcontextprotocol.io) server for the [TeleBotHost Developer API](https://telebothost.com) — 68 tools to manage Telegram bots from AI assistants like Claude, Cursor, and Copilot.**
 
 ---
 
-## ✨ Features
+## Features
 
-- **🔧 68 Tools** — Full coverage of the TeleBotHost Developer API + 3 docs search tools
-- **🚀 Multi-Platform** — Deploys on Vercel, Render, Railway, Fly.io, or any Node host
-- **🔐 Secure** — Bearer token auth, optional MCP endpoint protection, key-tier awareness (`sk_*` vs `pub_*`)
-- **⚡ Resilient** — Automatic 429 retry with exponential backoff, rate-limit header tracking
-- **📦 Binary-Safe** — Base64-encoded ZIP download/upload for `download_bot` and `import_bot`
-- **🛡️ Safe by Design** — Broadcast tool requires explicit `confirm: true` flag
-- **🧪 Tested** — Compliance test suite verifies MCP spec adherence (`scripts/test-mcp.sh`)
-- **🎯 Type-Safe** — Strict TypeScript throughout, clean compile
-- **📦 Zero-Config** — Single env var (`TELEBOTHOST_API_KEY`) to get started
+- **68 Tools** — Full coverage of the TeleBotHost Developer API + 3 docs search tools
+- **Multi-Platform** — Deploys on Vercel, Render, Railway, Fly.io, or any Node host
+- **Secure** — Bearer token auth, optional MCP endpoint protection, key-tier awareness (`sk_*` vs `pub_*`)
+- **Resilient** — Automatic 429 retry with exponential backoff, rate-limit header tracking
+- **Binary-Safe** — Base64-encoded ZIP download/upload for `download_bot` and `import_bot`
+- **Safe by Design** — Broadcast tool requires explicit `confirm: true` flag
+- **Tested** — Compliance test suite verifies MCP spec adherence (`scripts/test-mcp.sh`)
+- **Type-Safe** — Strict TypeScript throughout, clean compile
+- **Zero-Config** — Single env var (`TELEBOTHOST_API_KEY`) to get started
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
-- [Architecture](#-architecture)
-- [Quick Start](#-quick-start)
-- [Deployment](#-deployment)
+- [Architecture](#architecture)
+- [Quick Start](#quick-start)
+- [Deployment](#deployment)
   - [Vercel](#vercel-recommended)
   - [Render](#render)
   - [Railway / Fly.io / Self-Host](#railway--flyio--self-host)
-- [Connecting Your AI Client](#-connecting-your-ai-client)
-- [Available Tools (68)](#-available-tools-68)
-- [MCP Protocol](#-mcp-protocol)
-- [Error Handling](#-error-handling)
-- [Testing](#-testing)
-- [API Coverage](#-api-coverage)
-- [Environment Variables](#-environment-variables)
-- [Rate Limits](#-rate-limits)
-- [Local Development](#-local-development)
-- [Project Structure](#-project-structure)
-- [Roadmap](#-roadmap)
-- [Contributing](#-contributing)
-- [License](#-license)
+- [Connecting Your AI Client](#connecting-your-ai-client)
+- [Available Tools (68)](#available-tools-68)
+- [MCP Protocol](#mcp-protocol)
+- [Error Handling](#error-handling)
+- [Testing](#testing)
+- [API Coverage](#api-coverage)
+- [Environment Variables](#environment-variables)
+- [Rate Limits](#rate-limits)
+- [Local Development](#local-development)
+- [Project Structure](#project-structure)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [License](#license)
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 ┌─────────────────┐      POST /api/mcp       ┌─────────────────────┐      Bearer sk_*      ┌─────────────────────┐
@@ -82,7 +72,7 @@ Expose **68 tools** covering the TeleBotHost Developer API — bot lifecycle, st
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Get your TeleBotHost API key
 
@@ -96,11 +86,11 @@ Expose **68 tools** covering the TeleBotHost Developer API — bot lifecycle, st
 
 | Platform | One-click | Difficulty |
 |----------|-----------|------------|
-| **Vercel** | [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/telebothost/mcp-server&env=TELEBOTHOST_API_KEY&envDescription=Your%20TeleBotHost%20Developer%20API%20key&project-name=telebothost-mcp) | ⭐ Easiest |
-| **Render** | [Blueprint ready](#render) | ⭐ Easy |
-| **Railway** | `railway up` | ⭐⭐ Medium |
-| **Fly.io** | `fly launch` | ⭐⭐ Medium |
-| **Self-host** | `npm start` | ⭐⭐ Medium |
+| **Vercel** | [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/telebothost/mcp-server&env=TELEBOTHOST_API_KEY&envDescription=Your%20TeleBotHost%20Developer%20API%20key&project-name=telebothost-mcp) | Easiest |
+| **Render** | [Blueprint ready](#render) | Easy |
+| **Railway** | `railway up` | Medium |
+| **Fly.io** | `fly launch` | Medium |
+| **Self-host** | `npm start` | Medium |
 
 ### 3. Connect your AI client
 
@@ -108,7 +98,7 @@ See [Connecting Your AI Client](#-connecting-your-ai-client) below.
 
 ---
 
-## 📦 Deployment
+## Deployment
 
 ### Vercel (Recommended)
 
@@ -208,7 +198,7 @@ docker run -p 3000:3000 -e TELEBOTHOST_API_KEY=sk_xxx telebothost-mcp
 
 ---
 
-## 🔌 Connecting Your AI Client
+## Connecting Your AI Client
 
 Once deployed, point any MCP-compatible client at your endpoint. **Pass your TeleBotHost API key in the `X-Tbh-Api-Key` header** so each call uses your own TBH quota — the server never stores your key.
 
@@ -305,7 +295,7 @@ curl -X POST https://your-deployed-url/api/mcp \
   -d '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"list_bots","arguments":{}}}'
 ```
 
-### 🔑 API Key Resolution (Priority Order)
+### API Key Resolution (Priority Order)
 
 When a `tools/call` request arrives, the server resolves the TBH API key in this order:
 
@@ -319,15 +309,15 @@ When a `tools/call` request arrives, the server resolves the TBH API key in this
 
 ---
 
-## 🛠️ Available Tools (68)
+## Available Tools (68)
 
-### 🩺 Health (1)
+### Health (1)
 
 | Tool | Description |
 |------|-------------|
 | `get_status` | API health & version probe |
 
-### 🌐 Public Discovery (9) — no auth required
+### Public Discovery (9) — no auth required
 
 | Tool | Description |
 |------|-------------|
@@ -342,7 +332,7 @@ When a `tools/call` request arrives, the server resolves the TBH API key in this
 | `get_public_store_bot` | Get a store listing (public) |
 | `get_public_ads` | Fetch active ads feed (public) |
 
-### 🤖 Bot Lifecycle (20) — `sk_*` key required for writes
+### Bot Lifecycle (20) — `sk_*` key required for writes
 
 | Tool | Description |
 |------|-------------|
@@ -367,7 +357,7 @@ When a `tools/call` request arrives, the server resolves the TBH API key in this
 | `get_bot_readme` | Get bot README (owner) |
 | `update_bot_readme` | Update README (template only) |
 
-### 💾 Bot Storage (4)
+### Bot Storage (4)
 
 | Tool | Description |
 |------|-------------|
@@ -376,7 +366,7 @@ When a `tools/call` request arrives, the server resolves the TBH API key in this
 | `clear_bot_storage` | Clear all storage (irreversible) |
 | `migrate_bot_storage` | Migrate sync → async storage |
 
-### 📢 Broadcasts (6)
+### Broadcasts (6)
 
 | Tool | Description |
 |------|-------------|
@@ -387,7 +377,7 @@ When a `tools/call` request arrives, the server resolves the TBH API key in this
 | `delete_broadcast` | Delete broadcast history record |
 | `list_broadcasts` | List broadcasts for a bot |
 
-### ⚡ Commands (13) — full CRUD + folder management
+### Commands (13) — full CRUD + folder management
 
 | Tool | Description |
 |------|-------------|
@@ -405,7 +395,7 @@ When a `tools/call` request arrives, the server resolves the TBH API key in this
 | `update_command_folder` | Rename a command folder |
 | `delete_command_folder` | Delete a folder (unassigns commands) |
 
-### 🔑 Environment Variables (5)
+### Environment Variables (5)
 
 | Tool | Description |
 |------|-------------|
@@ -415,7 +405,7 @@ When a `tools/call` request arrives, the server resolves the TBH API key in this
 | `update_env_var` | Update an env var |
 | `delete_env_var` | Delete an env var |
 
-### 📋 Logs & Analytics (3)
+### Logs & Analytics (3)
 
 | Tool | Description |
 |------|-------------|
@@ -423,20 +413,20 @@ When a `tools/call` request arrives, the server resolves the TBH API key in this
 | `clear_bot_logs` | Clear all logs (irreversible) |
 | `get_bot_analytics` | User growth, activity & chat-type stats |
 
-### 🛍️ Community Store (2)
+### Community Store (2)
 
 | Tool | Description |
 |------|-------------|
 | `list_store_bots` | Browse store (authenticated) |
 | `install_store_bot` | Install a store bot |
 
-### 📊 Quota (1)
+### Quota (1)
 
 | Tool | Description |
 |------|-------------|
 | `get_quota` | Check daily / per-minute / monthly limits |
 
-### 📚 Docs Search (3) — no auth required
+### Docs Search (3) — no auth required
 
 | Tool | Description |
 |------|-------------|
@@ -446,7 +436,7 @@ When a `tools/call` request arrives, the server resolves the TBH API key in this
 
 ---
 
-## 🔌 MCP Protocol
+## MCP Protocol
 
 This server implements the [Model Context Protocol](https://modelcontextprotocol.io) **Streamable HTTP transport** in **stateless mode** — perfect for serverless platforms.
 
@@ -464,11 +454,11 @@ This server implements the [Model Context Protocol](https://modelcontextprotocol
 
 Each HTTP request creates a fresh server instance — no session persistence, no in-memory state. This means:
 
-- ✅ Works on Vercel serverless, AWS Lambda, Cloudflare Workers
-- ✅ Horizontally scalable (any number of replicas)
-- ✅ No cold-start session affinity issues
-- ❌ No server-initiated notifications (clients must poll)
-- ❌ No SSE streaming (single JSON response per request)
+- Works on Vercel serverless, AWS Lambda, Cloudflare Workers
+- Horizontally scalable (any number of replicas)
+- No cold-start session affinity issues
+- No server-initiated notifications (clients must poll)
+- No SSE streaming (single JSON response per request)
 
 ### Request/Response Format
 
@@ -522,7 +512,7 @@ Content-Type: application/json
 
 ---
 
-## 🚨 Error Handling
+## Error Handling
 
 The server implements a layered error handling strategy:
 
@@ -570,7 +560,7 @@ The TBH API is behind Cloudflare, which may challenge datacenter IPs. The client
 
 ---
 
-## 🧪 Testing
+## Testing
 
 ### Compliance Test Suite
 
@@ -626,24 +616,24 @@ curl -X POST $MCP_URL -H "Content-Type: application/json" \
 
 ---
 
-## 📊 API Coverage
+## API Coverage
 
 This MCP server covers **100% of the TeleBotHost Developer API** — every endpoint in the [OpenAPI 3.0.3 spec](https://api.telebothost.com/api/v1/docs/openapi.json) is mapped to a tool.
 
 | Group | Endpoints | Tools | Coverage |
 |-------|-----------|-------|----------|
-| Health | 1 | 1 | ✅ 100% |
-| Public Discovery | 10 | 10 | ✅ 100% |
-| Bot Lifecycle | 20 | 20 | ✅ 100% |
-| Bot Storage | 4 | 4 | ✅ 100% |
-| Broadcasts | 6 | 6 | ✅ 100% |
-| Commands + Folders | 13 | 13 | ✅ 100% |
-| Env Vars | 5 | 5 | ✅ 100% |
-| Logs & Analytics | 3 | 3 | ✅ 100% |
-| Community Store | 2 | 2 | ✅ 100% |
+| Health | 1 | 1 | 100% |
+| Public Discovery | 10 | 10 | 100% |
+| Bot Lifecycle | 20 | 20 | 100% |
+| Bot Storage | 4 | 4 | 100% |
+| Broadcasts | 6 | 6 | 100% |
+| Commands + Folders | 13 | 13 | 100% |
+| Env Vars | 5 | 5 | 100% |
+| Logs & Analytics | 3 | 3 | 100% |
+| Community Store | 2 | 2 | 100% |
 | Quota (helper) | — | 1 | N/A (reuses `GET /bot`) |
 | Docs Search | — | 3 | N/A (fetches external docs) |
-| **Total** | **64** | **68** | **✅ Full coverage** |
+| **Total** | **64** | **68** | **Full coverage** |
 
 ### Binary Endpoints (Expert Implementation)
 
@@ -671,7 +661,7 @@ The AI client can then write the base64 to a file and decode it to get the actua
 
 ---
 
-## 🔧 Environment Variables
+## Environment Variables
 
 | Variable | Required | Description |
 |----------|----------|-------------|
@@ -680,7 +670,7 @@ The AI client can then write the base64 to a file and decode it to get the actua
 | `TELEBOTHOST_API_BASE` | No | Override API base URL (default: `https://api.telebothost.com/api/v1`) |
 | `PORT` | No | Port for `server.ts` (default: `3000`, auto-set by Render/Railway/Fly) |
 
-### 🔑 Two Layers of Auth (Important!)
+### Two Layers of Auth (Important!)
 
 This MCP has **two independent auth layers** — don't confuse them:
 
@@ -708,7 +698,7 @@ This MCP has **two independent auth layers** — don't confuse them:
 
 ---
 
-## ⏱️ Rate Limits
+## Rate Limits
 
 The TeleBotHost API enforces plan-based limits. This MCP server automatically retries on HTTP 429 with exponential backoff (up to 3 retries).
 
@@ -724,7 +714,7 @@ Use `get_quota` to check remaining quota at any time.
 
 ---
 
-## 💻 Local Development
+## Local Development
 
 ```bash
 # Install deps
@@ -752,7 +742,7 @@ curl -X POST http://localhost:3000/api/mcp \
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 telebothost-mcp/
@@ -780,7 +770,7 @@ telebothost-mcp/
 └── README.md
 ```
 
-## 🌐 Endpoints
+## Endpoints
 
 | Method | Path | Description |
 |--------|------|-------------|
@@ -791,7 +781,7 @@ telebothost-mcp/
 
 ---
 
-## 🗺️ Roadmap
+## Roadmap
 
 - [x] **v1.0.0** — Initial release: 46 tools, Vercel deployment
 - [x] **v1.1.0** — Cleaner tool names (dropped `telebothost_` prefix)
@@ -804,7 +794,7 @@ telebothost-mcp/
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, conventions, and PR guidelines.
 
@@ -818,19 +808,19 @@ Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, convent
 
 ---
 
-## 🙏 Acknowledgements
+## Acknowledgements
 
 Special thanks to **Cyber** ([@CyberXCoding](https://t.me/CyberXCoding)) for creating the base version of this MCP server that this project was built upon.
 
 ---
 
-## 📄 License
+## License
 
 [MIT](LICENSE) © Muiz Ahmed ([mmuizahmed](https://github.com/mmuizahmed))
 
 ---
 
-## 🔗 Links
+## Links
 
 - **TeleBotHost:** [telebothost.com](https://telebothost.com)
 - **Developer API Docs:** [api.telebothost.com/api/v1/docs](https://api.telebothost.com/api/v1/docs)
@@ -840,8 +830,4 @@ Special thanks to **Cyber** ([@CyberXCoding](https://t.me/CyberXCoding)) for cre
 
 ---
 
-<div align="center">
-
-Built with ❤️ for the TeleBotHost community by [Muiz Ahmed](https://github.com/mmuizahmed)
-
-</div>
+Built for the TeleBotHost community by [Muiz Ahmed](https://github.com/mmuizahmed)
