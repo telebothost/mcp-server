@@ -820,7 +820,7 @@ Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, convent
 
 ## 🙏 Acknowledgements
 
-Special thanks to **Cyber** for creating the base version of this MCP server that this project was built upon.
+Special thanks to **Cyber** ([@CyberXCoding](https://t.me/CyberXCoding)) for creating the base version of this MCP server that this project was built upon.
 
 ---
 

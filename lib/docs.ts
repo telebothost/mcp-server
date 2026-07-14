@@ -358,7 +358,7 @@ curl -X POST ${mcpUrl} \\
     <div class="section-head">
       <span class="section-num">02</span>
       <h2>Available Tools (${allTools.length})</h2>
-      <p>Full coverage of the TeleBotHost Developer API — 47 endpoints mapped to ${allTools.length} tools.</p>
+      <p>Full coverage of the TeleBotHost Developer API — 64 endpoints mapped to ${allTools.length} tools.</p>
     </div>
 
     <div class="tools-search">

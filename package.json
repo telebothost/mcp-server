@@ -12,13 +12,13 @@
     "vercel:deploy": "vercel --prod --yes"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.12.1",
-    "tsx": "^4.19.2"
+    "@modelcontextprotocol/sdk": "1.29.0",
+    "tsx": "4.21.0"
   },
   "devDependencies": {
-    "@types/node": "^22.10.0",
-    "@vercel/node": "^5.1.8",
-    "typescript": "^5.7.0"
+    "@types/node": "22.20.1",
+    "@vercel/node": "5.8.24",
+    "typescript": "5.9.3"
   },
   "engines": {
     "node": ">=20"
@@ -36,12 +36,12 @@
     "render"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/sahilxteam/telebothost-mcp",
+  "homepage": "https://github.com/telebothost/mcp-server",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sahilxteam/telebothost-mcp.git"
+    "url": "git+https://github.com/telebothost/mcp-server.git"
   },
   "bugs": {
-    "url": "https://github.com/sahilxteam/telebothost-mcp/issues"
+    "url": "https://github.com/telebothost/mcp-server/issues"
   }
 }
