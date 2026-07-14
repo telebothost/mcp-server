@@ -1,0 +1,47 @@
+{
+  "name": "telebothost-mcp",
+  "version": "2.0.0",
+  "description": "TeleBotHost Developer API MCP Server — Model Context Protocol server for the TeleBotHost Developer API, deployable on Vercel, Render, Railway, Fly.io, or any Node host.",
+  "type": "module",
+  "main": "server.ts",
+  "scripts": {
+    "start": "node --import tsx server.ts",
+    "dev": "node --import tsx --watch server.ts",
+    "typecheck": "tsc --noEmit",
+    "vercel:dev": "vercel dev",
+    "vercel:deploy": "vercel --prod --yes"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "tsx": "^4.19.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@vercel/node": "^5.1.8",
+    "typescript": "^5.7.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "telebothost",
+    "telegram-bot",
+    "bot-hosting",
+    "ai",
+    "claude",
+    "cursor",
+    "vercel",
+    "render"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/sahilxteam/telebothost-mcp",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sahilxteam/telebothost-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sahilxteam/telebothost-mcp/issues"
+  }
+}

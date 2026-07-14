@@ -1,0 +1,26 @@
+# Render.com Blueprint — deploys telebothost-mcp as a web service.
+# Docs: https://render.com/docs/blueprint-spec
+#
+# Quick deploy:
+#   1. Push this repo to GitHub
+#   2. New → Blueprint → select the repo
+#   3. Set TELEBOTHOST_API_KEY in the Render dashboard (secret)
+#   4. Deploy
+
+services:
+  - type: web
+    name: telebothost-mcp
+    runtime: node
+    plan: free
+    region: singapore
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/mcp
+    healthCheckGracePeriodSeconds: 30
+    envVars:
+      - key: NODE_VERSION
+        value: 20.18.0
+      - key: TELEBOTHOST_API_KEY
+        sync: false  # set manually in dashboard (secret)
+      - key: MCP_AUTH_TOKEN
+        sync: false  # optional — protects your MCP endpoint

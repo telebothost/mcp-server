@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "buildCommand": null,
+  "outputDirectory": ".",
+  "functions": {
+    "api/**/*.ts": {
+      "maxDuration": 60
+    }
+  },
+  "routes": [
+    { "src": "/", "dest": "/api/index" },
+    { "src": "/docs", "dest": "/api/docs" },
+    { "src": "/health", "dest": "/api/health" }
+  ]
+}
