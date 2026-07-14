@@ -1217,8 +1217,20 @@ const docsSearchTools: ToolDef[] = [
       const query: string = arg(a, "query");
       const limit: number = (a.limit as number) ?? 10;
 
-      const res = await fetch("https://api.telebothost.com/api/v1/docs/openapi.json");
-      if (!res.ok) throw new Error(`Failed to fetch API docs: ${res.status}`);
+      let res: Response;
+      try {
+        res = await fetch("https://api.telebothost.com/api/v1/docs/openapi.json", {
+          headers: { "Accept": "application/json", "User-Agent": "telebothost-mcp/2.0.0" },
+        });
+      } catch (e) {
+        throw new Error(`Network error fetching API docs: ${(e as Error).message}`);
+      }
+      if (!res.ok) {
+        if (res.status === 403) {
+          return json({ query, count: 0, results: [], error: "Cloudflare is blocking this request from the server's IP. Run the MCP locally (npm start) for docs search to work, or open https://api.telebothost.com/api/v1/docs manually." });
+        }
+        throw new Error(`Failed to fetch API docs: ${res.status}`);
+      }
       const spec = await res.json() as Record<string, unknown>;
       const paths = (spec.paths ?? {}) as Record<string, Record<string, unknown>>;
 
@@ -1272,8 +1284,20 @@ const docsSearchTools: ToolDef[] = [
       const query: string = arg(a, "query");
       const limit: number = (a.limit as number) ?? 5;
 
-      const res = await fetch("https://telebothost.com/docs/");
-      if (!res.ok) throw new Error(`Failed to fetch TBL docs: ${res.status}`);
+      let res: Response;
+      try {
+        res = await fetch("https://telebothost.com/docs/", {
+          headers: { "Accept": "text/html", "User-Agent": "telebothost-mcp/2.0.0" },
+        });
+      } catch (e) {
+        throw new Error(`Network error fetching TBL docs: ${(e as Error).message}`);
+      }
+      if (!res.ok) {
+        if (res.status === 403) {
+          return json({ query, count: 0, snippets: [], error: "Cloudflare is blocking this request from the server's IP. Run the MCP locally (npm start) for docs search to work, or open https://telebothost.com/docs/ manually." });
+        }
+        throw new Error(`Failed to fetch TBL docs: ${res.status}`);
+      }
       const html = await res.text();
       const plain = stripHtml(html);
       const matches = snippets(plain, query, limit);

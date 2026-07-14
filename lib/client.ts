@@ -101,9 +101,7 @@ export class TbhClient {
 
     const headers: Record<string, string> = {
       Accept: opts.binary ? "*/*" : "application/json",
-      "User-Agent":
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
-      Referer: "https://api.telebothost.com/api/v1/docs",
+      "User-Agent": "telebothost-mcp/2.0.0 (https://github.com/telebothost/mcp-server)",
       ...opts.headers,
     };
 
@@ -175,7 +173,7 @@ export class TbhClient {
           }
           // Detect Cloudflare challenge
           if (res.status === 403 && typeof data === "string" && data.includes("cf_chl")) {
-            errMsg = "Cloudflare challenge — the TBH API is blocking this request. Authenticated requests with an API key (sk_*) may bypass this.";
+            errMsg = "Cloudflare is blocking requests from this server's IP. For authenticated tools, pass your sk_* key via X-Tbh-Api-Key header — TBH may whitelist API key requests. For public endpoints, run the MCP locally (npm start) to bypass Cloudflare.";
           }
           throw new TbhApiError(errMsg, res.status, typeof data === "string" ? errMsg : data);
         }
