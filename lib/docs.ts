@@ -26,6 +26,38 @@ const GITHUB_URL = "https://github.com/telebothost/mcp-server";
 const TBH_DOCS_URL = "https://api.telebothost.com/api/v1/docs";
 const MCP_SPEC_URL = "https://modelcontextprotocol.io";
 
+type RequestHeaders = Record<string, string | string[] | undefined>;
+
+/** Build the public origin from proxy-aware request headers. */
+export function resolveRequestOrigin(headers: RequestHeaders): string {
+  const host =
+    (headers["x-forwarded-host"] as string | undefined) ??
+    (headers.host as string | undefined) ??
+    "localhost:3000";
+  const forwarded = headers["x-forwarded-proto"] as string | undefined;
+  const proto =
+    forwarded ??
+    (/^localhost(:\d+)?$|^127\.0\.0\.1(:\d+)?$/.test(host) ? "http" : "https");
+  return normalizeOrigin(`${proto}://${host}`);
+}
+
+/** Force https for non-local deployments (fixes hardcoded http:// in docs configs). */
+export function normalizeOrigin(origin: string): string {
+  try {
+    const url = new URL(origin);
+    if (
+      url.protocol === "http:" &&
+      url.hostname !== "localhost" &&
+      url.hostname !== "127.0.0.1"
+    ) {
+      url.protocol = "https:";
+    }
+    return url.origin;
+  } catch {
+    return origin;
+  }
+}
+
 // Tool group metadata (order matters for display)
 const GROUPS: Array<{ name: string; icon: string; description: string }> = [
   { name: "Health", icon: "🩺", description: "API status & version probe" },
@@ -43,8 +75,9 @@ const GROUPS: Array<{ name: string; icon: string; description: string }> = [
 
 /** Generate the full HTML docs page. */
 export function generateDocsHtml(origin: string): string {
-  const mcpUrl = `${origin}/api/mcp`;
-  const healthUrl = `${origin}/api/health`;
+  const base = normalizeOrigin(origin);
+  const mcpUrl = `${base}/api/mcp`;
+  const healthUrl = `${base}/api/health`;
 
   // Group tools by their section in tools.ts (we infer from name prefix)
   const grouped = groupToolsBySection();
@@ -533,6 +566,7 @@ curl -X POST ${mcpUrl} \\
 
 /** Generate a minimal JSON health response. */
 export function generateHealthJson(origin: string): string {
+  const base = normalizeOrigin(origin);
   return JSON.stringify(
     {
       status: "ok",
@@ -541,9 +575,9 @@ export function generateHealthJson(origin: string): string {
       protocol: PROTOCOL_VERSION,
       tools: allTools.length,
       endpoints: {
-        mcp: `${origin}/api/mcp`,
-        docs: `${origin}/`,
-        health: `${origin}/api/health`,
+        mcp: `${base}/api/mcp`,
+        docs: `${base}/`,
+        health: `${base}/api/health`,
       },
       coverage: "100%",
       timestamp: new Date().toISOString(),

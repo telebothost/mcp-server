@@ -53,7 +53,11 @@ export default async function handler(
 
   if (req.method !== "POST") {
     for (const [k, v] of Object.entries(CORS_HEADERS)) res.setHeader(k, v);
-    res.status(405).json({ error: "Method not allowed. Use POST." });
+    res.setHeader("Allow", "POST, OPTIONS");
+    res.status(405).json({
+      error: "Method not allowed",
+      hint: "Stateless MCP endpoint — use POST. SSE streaming (GET) is not supported.",
+    });
     return;
   }
 

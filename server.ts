@@ -15,7 +15,7 @@ import http from "node:http";
 import { TbhClient } from "./lib/client.js";
 import { TbhApiError } from "./lib/types.js";
 import { allTools } from "./lib/tools.js";
-import { generateDocsHtml, generateHealthJson } from "./lib/docs.js";
+import { generateDocsHtml, generateHealthJson, resolveRequestOrigin } from "./lib/docs.js";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -41,7 +41,7 @@ const PORT = parseInt(process.env.PORT ?? "3000", 10);
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url ?? "/", `http://${req.headers.host ?? "localhost"}`);
   const path = url.pathname;
-  const origin = `http://${req.headers.host ?? "localhost"}`;
+  const origin = resolveRequestOrigin(req.headers);
 
   // ─── CORS preflight ───
   if (req.method === "OPTIONS") {
@@ -63,6 +63,19 @@ const server = http.createServer(async (req, res) => {
     if (path === "/" || path === "/docs" || path === "/index.html") {
       res.writeHead(200, { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "public, max-age=300" });
       res.end(generateDocsHtml(origin));
+      return;
+    }
+    // MCP Streamable HTTP: clients probe GET for an SSE stream. This server is
+    // stateless (POST-only). MCP spec requires 405 here — 404 makes Cursor fail.
+    if (path === "/api/mcp" || path === "/mcp") {
+      for (const [k, v] of Object.entries(CORS_HEADERS)) res.setHeader(k, v);
+      res.writeHead(405, { "Content-Type": "application/json", Allow: "POST, OPTIONS" });
+      res.end(
+        JSON.stringify({
+          error: "Method not allowed",
+          hint: "Stateless MCP endpoint — use POST. SSE streaming (GET) is not supported.",
+        }),
+      );
       return;
     }
     // Unknown GET → 404 with helpful message
