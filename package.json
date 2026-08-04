@@ -8,6 +8,9 @@
     "start": "node --import tsx server.ts",
     "dev": "node --import tsx --watch server.ts",
     "typecheck": "tsc --noEmit",
+    "test:coverage": "node --import tsx scripts/check-coverage.ts",
+    "test:mcp": "node scripts/test-mcp.mjs",
+    "test:mcp:bash": "bash scripts/test-mcp.sh",
     "vercel:dev": "vercel dev",
     "vercel:deploy": "vercel --prod --yes"
   },

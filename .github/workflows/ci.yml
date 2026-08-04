@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check:
+    name: Typecheck · Coverage · Smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Tool coverage check
+        run: npm run test:coverage
+
+      - name: Start MCP server
+        run: |
+          npm start &
+          echo $! > /tmp/mcp-server.pid
+          for i in $(seq 1 30); do
+            if curl -sf http://127.0.0.1:3000/api/health >/dev/null; then
+              echo "Server ready"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "Server failed to become healthy"
+          exit 1
+
+      - name: MCP compliance smoke tests
+        run: npm run test:mcp
+        env:
+          MCP_URL: http://127.0.0.1:3000/api/mcp
+
+      - name: Stop server
+        if: always()
+        run: |
+          if [ -f /tmp/mcp-server.pid ]; then
+            kill "$(cat /tmp/mcp-server.pid)" || true
+          fi
+
+      - name: Docker build
+        run: docker build -t telebothost-mcp:ci .

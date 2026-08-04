@@ -68,7 +68,7 @@
 ```
 
 **Transport:** Streamable HTTP (stateless JSON-RPC 2.0 over HTTP POST)
-**Runtime:** Node.js 20+ · TypeScript 5.7 · @modelcontextprotocol/sdk 1.x
+**Runtime:** Node.js 20+ · TypeScript 5.9 · @modelcontextprotocol/sdk 1.x
 
 ---
 
@@ -194,7 +194,7 @@ docker build -t telebothost-mcp .
 docker run -p 3000:3000 -e TELEBOTHOST_API_KEY=sk_xxx telebothost-mcp
 ```
 
-> **Note:** Create a `Dockerfile` if you need container builds — the Node server is runtime-agnostic.
+Endpoint: `http://localhost:3000/api/mcp`
 
 ---
 
@@ -562,6 +562,13 @@ The TBH API is behind Cloudflare, which may challenge datacenter IPs. The client
 
 ## Testing
 
+### Tool Coverage Check
+
+```bash
+npm run test:coverage
+# → Asserts exactly 68 tools, unique snake_case names, required tools present
+```
+
 ### Compliance Test Suite
 
 The repo includes a bash-based compliance test suite that verifies MCP spec adherence:
@@ -570,13 +577,16 @@ The repo includes a bash-based compliance test suite that verifies MCP spec adhe
 # Test against local server
 npm start &
 sleep 2
-MCP_URL=http://localhost:3000/api/mcp ./scripts/test-mcp.sh
+npm run test:mcp
 
 # Test against production
-MCP_URL=https://tbh-mcp.vercel.app/api/mcp ./scripts/test-mcp.sh
+MCP_URL=https://tbh-mcp.vercel.app/api/mcp npm run test:mcp
 
 # With auth token
-MCP_URL=https://your-url/api/mcp MCP_TOKEN=xxx ./scripts/test-mcp.sh
+MCP_URL=https://your-url/api/mcp MCP_TOKEN=xxx npm run test:mcp
+
+# Bash variant (optional)
+MCP_URL=http://localhost:3000/api/mcp ./scripts/test-mcp.sh
 ```
 
 **What it verifies:**
@@ -590,6 +600,8 @@ MCP_URL=https://your-url/api/mcp MCP_TOKEN=xxx ./scripts/test-mcp.sh
 7. Invalid JSON returns `-32700` parse error
 8. GET method returns HTTP 405 (only POST allowed)
 9. All required tools are present (10 critical tools checked)
+
+CI (`.github/workflows/ci.yml`) runs typecheck, coverage, smoke tests, and a Docker build on every push/PR to `main`.
 
 ### Type Safety
 
@@ -757,8 +769,15 @@ telebothost-mcp/
 │   ├── tools.ts            # All 68 MCP tool definitions
 │   └── docs.ts             # HTML docs page generator
 ├── scripts/
-│   └── test-mcp.sh         # Compliance test suite
+│   ├── test-mcp.mjs        # Compliance test suite (cross-platform)
+│   ├── test-mcp.sh         # Compliance test suite (bash)
+│   └── check-coverage.ts   # Asserts tool count / uniqueness
+├── .github/
+│   └── workflows/
+│       └── ci.yml          # Typecheck + coverage + smoke tests
 ├── server.ts               # Generic Node HTTP server (Render/Railway/Fly)
+├── Dockerfile              # Container image for any host
+├── .dockerignore
 ├── render.yaml             # Render.com Blueprint config
 ├── vercel.json             # Vercel serverless config + routes
 ├── .env.example            # Environment variable template
@@ -776,7 +795,7 @@ telebothost-mcp/
 |--------|------|-------------|
 | `GET` | `/` | Documentation page (HTML) — tool list, quick start, configs |
 | `GET` | `/docs` | Alias for `/` |
-| `GET` | `/api/health` | JSON health probe — `{"status":"ok","tools":48,...}` |
+| `GET` | `/api/health` | JSON health probe — `{"status":"ok","tools":68,...}` |
 | `POST` | `/api/mcp` | MCP JSON-RPC endpoint (initialize, tools/list, tools/call) |
 
 ---
@@ -788,7 +807,7 @@ telebothost-mcp/
 - [x] **v1.2.0** — 100% API coverage: `download_bot` & `import_bot` (binary base64), compliance test suite, multi-platform deploy configs
 - [x] **v1.3.0** — Per-request API key via `X-Tbh-Api-Key` header — multi-user support, each user uses own TBH quota
 - [x] **v2.0.0** — 68 tools: full CRUD for commands + folders, env vars, logs, analytics, docs search (TBH API, TBL lang, Telegram Bot API)
-- [ ] **v2.1.0** — Docker support, GitHub Actions CI, automated coverage check in CI
+- [x] **v2.1.0** — Docker support, GitHub Actions CI, automated coverage check in CI
 - [ ] **v2.2.0** — SSE streaming transport for stateful deployments (Render/Railway)
 - [ ] **v3.0.0** — Tool-level RBAC, audit logging, multi-region deployment guide
 
